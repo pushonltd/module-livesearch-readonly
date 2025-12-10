@@ -14,6 +14,7 @@ use Magento\ServicesConnector\Api\JwtTokenInterface;
 use Magento\ServicesConnector\Model\GuzzleClientFactory;
 use Psr\Http\Message\RequestInterface;
 use PushON\LiveSearchReadOnly\Config\Credentials;
+use PushON\LiveSearchReadOnly\Firewall\BlockingMiddlewareFactory;
 
 /**
  * Custom client resolver for LiveSearch with separate credentials
@@ -30,6 +31,7 @@ class Resolver implements ClientResolverInterface
      * @param GuzzleClientFactory $clientFactory
      * @param ProductMetadataInterface $productMetadata
      * @param ScopeConfigInterface $scopeConfig
+     * @param BlockingMiddlewareFactory $blockingMiddlewareFactory
      */
     public function __construct(
         private readonly Credentials $credentials,
@@ -37,7 +39,8 @@ class Resolver implements ClientResolverInterface
         private readonly JwtTokenInterface $jwtToken,
         private readonly GuzzleClientFactory $clientFactory,
         private readonly ProductMetadataInterface $productMetadata,
-        private readonly ScopeConfigInterface $scopeConfig
+        private readonly ScopeConfigInterface $scopeConfig,
+        private readonly BlockingMiddlewareFactory $blockingMiddlewareFactory
     ) {
     }
 
@@ -72,10 +75,11 @@ class Resolver implements ClientResolverInterface
         }
 
         $stack = HandlerStack::create();
-        $stack->push($this->createAuthMiddleware());
+        $stack->push($this->blockingMiddlewareFactory->create(), 'block_non_search');
+        $stack->push($this->createAuthMiddleware(), 'auth');
 
         foreach ($middlewares as $middleware) {
-            // @phpstan-ignore argument.type (Magento interface incorrectly types $middlewares as Middleware[] but they are callables)
+            // @phpstan-ignore argument.type
             $stack->push($middleware);
         }
 

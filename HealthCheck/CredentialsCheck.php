@@ -53,6 +53,8 @@ class CredentialsCheck implements CheckInterface
     }
 
     /**
+     * Mask sensitive value for display
+     *
      * @param string $value
      * @return string
      */
@@ -67,6 +69,8 @@ class CredentialsCheck implements CheckInterface
     }
 
     /**
+     * Get help messages for missing credentials
+     *
      * @return array
      */
     private function getCredentialsHelpMessages(): array

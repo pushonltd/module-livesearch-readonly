@@ -24,6 +24,8 @@ class CheckResult
     }
 
     /**
+     * Get title
+     *
      * @return string
      */
     public function getTitle(): string
@@ -32,6 +34,8 @@ class CheckResult
     }
 
     /**
+     * Get statuses
+     *
      * @return array
      */
     public function getStatuses(): array
@@ -40,6 +44,8 @@ class CheckResult
     }
 
     /**
+     * Get messages
+     *
      * @return array
      */
     public function getMessages(): array
@@ -48,6 +54,8 @@ class CheckResult
     }
 
     /**
+     * Check if passed
+     *
      * @return bool
      */
     public function isPassed(): bool

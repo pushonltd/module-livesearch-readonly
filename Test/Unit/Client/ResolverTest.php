@@ -14,6 +14,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PushON\LiveSearchReadOnly\Client\Resolver;
 use PushON\LiveSearchReadOnly\Config\Credentials;
+use PushON\LiveSearchReadOnly\Firewall\BlockingMiddlewareFactory;
 
 class ResolverTest extends TestCase
 {
@@ -23,6 +24,7 @@ class ResolverTest extends TestCase
     private MockObject&GuzzleClientFactory $clientFactory;
     private MockObject&ProductMetadataInterface $productMetadata;
     private MockObject&ScopeConfigInterface $scopeConfig;
+    private MockObject&BlockingMiddlewareFactory $blockingMiddlewareFactory;
     private Resolver $resolver;
 
     protected function setUp(): void
@@ -33,6 +35,8 @@ class ResolverTest extends TestCase
         $this->clientFactory = $this->createMock(GuzzleClientFactory::class);
         $this->productMetadata = $this->createMock(ProductMetadataInterface::class);
         $this->scopeConfig = $this->createMock(ScopeConfigInterface::class);
+        $this->blockingMiddlewareFactory = $this->createMock(BlockingMiddlewareFactory::class);
+        $this->blockingMiddlewareFactory->method('create')->willReturn(fn($handler) => $handler);
 
         $this->resolver = new Resolver(
             $this->credentials,
@@ -40,7 +44,8 @@ class ResolverTest extends TestCase
             $this->jwtToken,
             $this->clientFactory,
             $this->productMetadata,
-            $this->scopeConfig
+            $this->scopeConfig,
+            $this->blockingMiddlewareFactory
         );
     }
 

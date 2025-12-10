@@ -2,6 +2,17 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/di.xsd">
 
+    <!-- Firewall allowed paths configuration -->
+    <type name="PushON\LiveSearchReadOnly\Firewall\RequestValidator">
+        <arguments>
+            <argument name="allowedPaths" xsi:type="array">
+                <item name="search/graphql" xsi:type="boolean">true</item>
+                <item name="search/auth-graphql" xsi:type="boolean">true</item>
+                <item name="search-admin/graphql" xsi:type="boolean">true</item>
+            </argument>
+        </arguments>
+    </type>
+
     <!-- Custom ClientResolver with fallback to original -->
     <virtualType name="PushON\LiveSearchReadOnly\Client\LiveSearchResolver"
                  type="PushON\LiveSearchReadOnly\Client\Resolver">
@@ -36,6 +47,7 @@
                 <item name="gateway_url" xsi:type="object">PushON\LiveSearchReadOnly\HealthCheck\GatewayUrlCheck</item>
                 <item name="jwt_signature" xsi:type="object">PushON\LiveSearchReadOnly\HealthCheck\JwtSignatureCheck</item>
                 <item name="cron_safety" xsi:type="object">PushON\LiveSearchReadOnly\HealthCheck\CronSafetyCheck</item>
+                <item name="firewall" xsi:type="object">PushON\LiveSearchReadOnly\HealthCheck\FirewallCheck</item>
             </argument>
         </arguments>
     </type>

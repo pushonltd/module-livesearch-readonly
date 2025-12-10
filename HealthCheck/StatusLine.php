@@ -24,6 +24,8 @@ class StatusLine
     }
 
     /**
+     * Get label
+     *
      * @return string
      */
     public function getLabel(): string
@@ -32,6 +34,8 @@ class StatusLine
     }
 
     /**
+     * Check if status is ok
+     *
      * @return bool
      */
     public function isOk(): bool
@@ -40,6 +44,8 @@ class StatusLine
     }
 
     /**
+     * Get value
+     *
      * @return string|null
      */
     public function getValue(): ?string
@@ -48,6 +54,8 @@ class StatusLine
     }
 
     /**
+     * Check if status is critical
+     *
      * @return bool
      */
     public function isCritical(): bool

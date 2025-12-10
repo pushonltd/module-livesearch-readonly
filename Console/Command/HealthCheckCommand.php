@@ -57,6 +57,8 @@ class HealthCheckCommand extends Command
     }
 
     /**
+     * Print header
+     *
      * @param OutputInterface $output
      * @return void
      */
@@ -64,12 +66,15 @@ class HealthCheckCommand extends Command
     {
         $output->writeln('');
         $output->writeln('<fg=cyan>╔══════════════════════════════════════════════════════════════╗</>');
-        $output->writeln('<fg=cyan>║</>  <fg=white;options=bold>LiveSearch ReadOnly - Health Check</>                          <fg=cyan>║</>');
+        $line = '<fg=cyan>║</>  <fg=white;options=bold>LiveSearch ReadOnly - Health Check</>  ';
+        $output->writeln($line . '                       <fg=cyan>║</>');
         $output->writeln('<fg=cyan>╚══════════════════════════════════════════════════════════════╝</>');
         $output->writeln('');
     }
 
     /**
+     * Print check result
+     *
      * @param OutputInterface $output
      * @param CheckResult $result
      * @return void
@@ -95,6 +100,8 @@ class HealthCheckCommand extends Command
     }
 
     /**
+     * Print status line
+     *
      * @param OutputInterface $output
      * @param StatusLine $status
      * @return void
@@ -122,6 +129,8 @@ class HealthCheckCommand extends Command
     }
 
     /**
+     * Print message
+     *
      * @param OutputInterface $output
      * @param string $message
      * @return void
@@ -141,6 +150,8 @@ class HealthCheckCommand extends Command
     }
 
     /**
+     * Print summary
+     *
      * @param OutputInterface $output
      * @param bool $passed
      * @return void

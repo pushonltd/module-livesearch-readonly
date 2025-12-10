@@ -18,6 +18,10 @@ Local Environment
 
 The module overrides DI for `Magento\LiveSearch\Api\ServiceClient` only—other SaaS services remain disconnected.
 
+### Firewall
+
+As an extra safety layer, there is a small Guzzle middleware that effectively blocks any non-search traffic going through the LiveSearch HTTP client. It's not a real firewall, but it works the same way for our purposes – anything that isn't hitting `search/graphql`, `search/auth-graphql`, or `search-admin/graphql` simply won't reach the API.
+
 ## Requirements
 
 - Adobe Commerce 2.4.4+
