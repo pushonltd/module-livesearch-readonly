@@ -1,0 +1,21 @@
+{
+    "name": "pushon/module-livesearch-readonly",
+    "description": "Query any LiveSearch data space locally without risking data corruption",
+    "type": "magento2-module",
+    "license": "MIT",
+    "require": {
+        "php": "~8.1.0||~8.2.0||~8.3.0||~8.4.0",
+        "magento/framework": "*",
+        "magento/services-connector": "^1.0",
+        "magento/module-services-id": "^3.0",
+        "magento/module-live-search": "^4.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "PushON\\LiveSearchReadOnly\\": ""
+        }
+    }
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/di.xsd">
+
+    <!-- Custom ClientResolver with fallback to original -->
+    <virtualType name="PushON\LiveSearchReadOnly\Client\LiveSearchResolver"
+                 type="PushON\LiveSearchReadOnly\Client\Resolver">
+        <arguments>
+            <argument name="originalResolver" xsi:type="object">Magento\ServicesConnector\Model\ClientResolver</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ServicesConfig decorator with fallback to original -->
+    <virtualType name="PushON\LiveSearchReadOnly\Config\LiveSearchServicesConfig"
+                 type="PushON\LiveSearchReadOnly\Config\ServicesConfigDecorator">
+        <arguments>
+            <argument name="decorated" xsi:type="object">Magento\ServicesId\Model\ServicesConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Inject custom implementations into LiveSearch ServiceClient -->
+    <type name="Magento\LiveSearch\Api\ServiceClient">
+        <arguments>
+            <argument name="clientResolver" xsi:type="object">PushON\LiveSearchReadOnly\Client\LiveSearchResolver</argument>
+            <argument name="servicesConfig" xsi:type="object">PushON\LiveSearchReadOnly\Config\LiveSearchServicesConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- Health check classes for CLI command -->
+    <type name="PushON\LiveSearchReadOnly\Console\Command\HealthCheckCommand">
+        <arguments>
+            <argument name="checks" xsi:type="array">
+                <item name="module_status" xsi:type="object">PushON\LiveSearchReadOnly\HealthCheck\ModuleStatusCheck</item>
+                <item name="credentials" xsi:type="object">PushON\LiveSearchReadOnly\HealthCheck\CredentialsCheck</item>
+                <item name="saas_environment" xsi:type="object">PushON\LiveSearchReadOnly\HealthCheck\SaasEnvironmentCheck</item>
+                <item name="gateway_url" xsi:type="object">PushON\LiveSearchReadOnly\HealthCheck\GatewayUrlCheck</item>
+                <item name="jwt_signature" xsi:type="object">PushON\LiveSearchReadOnly\HealthCheck\JwtSignatureCheck</item>
+                <item name="cron_safety" xsi:type="object">PushON\LiveSearchReadOnly\HealthCheck\CronSafetyCheck</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Register CLI command -->
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="pushon_livesearch_readonly_health" xsi:type="object">PushON\LiveSearchReadOnly\Console\Command\HealthCheckCommand</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Override ServicesConfigInterface for frontend blocks (BaseSaaSContext uses it for getEnvironmentId) -->
+    <type name="Magento\LiveSearch\Block\BaseSaaSContext">
+        <arguments>
+            <argument name="servicesConfig" xsi:type="object">PushON\LiveSearchReadOnly\Config\LiveSearchServicesConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- Plugin to override getApiKey() in LiveSearch Product Listing SaaSContext -->
+    <type name="Magento\LiveSearchProductListing\Block\Frontend\SaaSContext">
+        <plugin name="pushon_livesearch_readonly_apikey"
+                type="PushON\LiveSearchReadOnly\Plugin\SaaSContextApiKeyPlugin"/>
+    </type>
+
+</config>

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="pushon_livesearch_readonly" translate="label" sortOrder="1000" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>LiveSearch Read-Only Credentials</label>
+            <tab>service</tab>
+            <resource>PushON_LiveSearchReadOnly::config</resource>
+            <group id="credentials" translate="label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Credentials</label>
+                <comment><![CDATA[
+                    <p>Configure separate credentials for LiveSearch read-only operations.</p>
+                    <p>This allows LiveSearch to work even when default SaaS credentials are not configured.</p>
+                ]]></comment>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Custom Credentials</label>
+                    <comment>When enabled, LiveSearch will use the credentials configured below.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="fallback_enabled" translate="label comment" type="select" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Fallback to Default Credentials</label>
+                    <comment>When enabled, falls back to default SaaS credentials if custom credentials are not set. Disable this if you want LiveSearch to work ONLY with custom credentials.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="api_key" translate="label comment" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API Key</label>
+                    <comment>API key from the source Adobe Commerce instance.</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="private_key" translate="label comment" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Private Key</label>
+                    <comment>Private key from the source Adobe Commerce instance.</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="environment_id" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Environment ID</label>
+                    <comment>Environment ID from the source Adobe Commerce instance.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

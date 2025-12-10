@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <pushon_livesearch_readonly>
+            <credentials>
+                <enabled>0</enabled>
+                <fallback_enabled>0</fallback_enabled>
+                <api_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+            </credentials>
+        </pushon_livesearch_readonly>
+    </default>
+</config>
